@@ -11,7 +11,7 @@ app.use(cors());
 const router = express.Router();
 
 // this is our MongoDB database
-const dbRoute = 'mongodb://ReactSample:zhangcy0411@cluster0-shard-00-00-vbona.mongodb.net:27017,cluster0-shard-00-01-vbona.mongodb.net:27017,cluster0-shard-00-02-vbona.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority';
+const dbRoute = process.env.mangourlz;
 
 // connects our back end code with the database
 mongoose.connect(dbRoute, { useNewUrlParser: true });
@@ -43,4 +43,5 @@ router.get('/getData', (req, res) => {
 app.use('/api', router);
 
 // launch our backend into a port
-app.listen(API_PORT,'0.0.0.0', () => console.log(`LISTENING ON PORT ${API_PORT}`));
+app.set('port', process.env.PORT || API_PORT)
+app.listen(app.get('port'),'0.0.0.0',  ()=>{ console.log("Node app is running at localhost:" + app.get('port')); });
